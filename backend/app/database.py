@@ -20,7 +20,7 @@ logger = logging.getLogger("library.db")
 
 settings = get_settings()
 
-_pool = PooledDB(
+_pool_kwargs = dict(
     creator=pymysql,
     maxconnections=20,
     mincached=2,
@@ -36,6 +36,10 @@ _pool = PooledDB(
     cursorclass=pymysql.cursors.DictCursor,
     autocommit=True,
 )
+if settings.db_ssl:
+    _pool_kwargs["ssl"] = {"ca": None}
+
+_pool = PooledDB(**_pool_kwargs)
 
 
 @contextmanager

@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     db_user: str = "library_admin"
     db_password: str = "Library@2026"
     db_name: str = "library_management_system"
+    db_ssl: bool = False
 
     # Auth
     jwt_secret: str = "change_this_to_a_long_random_secret_before_deploying"
