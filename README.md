@@ -1,4 +1,15 @@
-# CityLibrary — Advanced Library Management System
+# 🏛️ Advanced Library Management System
+
+**Production-Grade Library Management System using FastAPI, MySQL & Bootstrap**
+
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
+![JWT](https://img.shields.io/badge/Auth-JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
+![REST API](https://img.shields.io/badge/API-REST-25D366?style=for-the-badge)
+![No ORM](https://img.shields.io/badge/SQL-Hand--Written-FF6B35?style=for-the-badge)
+![License](https://img.shields.io/badge/LICENSE-MIT-7E57C2?style=for-the-badge)
 
 A production-style Library Management System built to demonstrate strong
 **SQL / database engineering** alongside a real full-stack implementation —
@@ -8,10 +19,55 @@ and a Bootstrap 5 admin dashboard on the front end.
 This isn't a toy CRUD demo: circulation rules (max books per student, fine
 calculation, stock counts) are enforced **inside the database** via stored
 procedures, triggers and functions, wrapped in real transactions — not just
-in application code. The goal was to build something that would hold up in
-a SQL Developer / Database Developer / Backend Developer interview.
+in application code. The project focuses on demonstrating production-style
+database design, SQL programming, and backend development practices using
+FastAPI and MySQL.
 
 ![Dashboard](docs/screenshots/dashboard.png)
+
+---
+
+## 🚀 Live Demo
+
+**URL:** [https://citylibrary-lms.netlify.app/](https://citylibrary-lms.netlify.app/)
+
+| Role | Username | Password |
+|------|----------|----------|
+| Super Admin | `admin` | `Admin@123` |
+| Librarian | `librarian1` | `Admin@123` |
+
+> **Note:** The backend is hosted on Render's free tier and the database on
+> Aiven's free tier. Both spin down after periods of inactivity, so the
+> **first request after idle time can take 30–50 seconds** to wake up —
+> this is a hosting cold-start, not an application bug. Subsequent requests
+> are fast.
+
+**Hosting stack:** Frontend on **Netlify**, backend (FastAPI) on **Render**,
+database (MySQL) on **Aiven** — all free tier, $0/month.
+
+---
+
+## Key Highlights
+
+✔ 3NF Database Design
+✔ Stored Procedures
+✔ Triggers
+✔ Views
+✔ Functions
+✔ JWT Authentication
+✔ Raw Parameterized SQL (No ORM)
+✔ Bootstrap Dashboard
+✔ Reports & Analytics
+✔ End-to-End Tested
+
+---
+
+## Designed For
+
+✔ SQL Developer
+✔ Database Developer
+✔ Backend Developer
+✔ Python Developer
 
 ---
 
@@ -22,6 +78,7 @@ a SQL Developer / Database Developer / Backend Developer interview.
 | Database  | **MySQL 8 / MariaDB 10.6+** — schema, views, functions, procedures, triggers |
 | Backend   | **Python 3.11+, FastAPI**, PyMySQL (raw parameterized SQL, no ORM), JWT auth |
 | Frontend  | HTML5, CSS3, vanilla JavaScript, **Bootstrap 5**, Chart.js |
+| Hosting   | Netlify (frontend) · Render (backend) · Aiven (MySQL) |
 
 The frontend deliberately uses no build step (no npm/webpack needed to run
 it) — open the HTML files, or serve them with any static file server.
@@ -57,7 +114,21 @@ thing worth walking an interviewer through.
 
 ---
 
-## Features
+## 👥 User Roles
+
+| Role | Access |
+|------|--------|
+| Super Admin | Full system control — manage books, students, issues, reports, and other admin accounts |
+| Librarian | Day-to-day circulation — issue/return books, manage students, view reports |
+
+The system is **staff-operated by design**: students don't get their own
+login. Just like a real library counter, a librarian or admin issues and
+returns books on the student's behalf. See [Design Notes](#design-notes)
+for the reasoning.
+
+---
+
+## ✨ Features
 
 **Authentication** — bcrypt password hashing, JWT bearer tokens, and a
 DB-backed `admin_sessions` table so sessions can be revoked/audited
@@ -132,7 +203,7 @@ library-management-system/
 
 ---
 
-## Quick Start
+## Quick Start (Local)
 
 See **[INSTALLATION.md](INSTALLATION.md)** for full setup instructions. In short:
 
@@ -164,6 +235,23 @@ python3 -m http.server 5500
 
 ---
 
+## ☁️ Deployment
+
+This project is deployed entirely on free tiers, split across three services:
+
+| Layer | Service | Notes |
+|-------|---------|-------|
+| Frontend | **Netlify** | Static hosting, deploys `frontend/` directly from GitHub on push |
+| Backend | **Render** | Python web service, `uvicorn app.main:app`, config via environment variables |
+| Database | **Aiven** | Managed MySQL 8.4, SSL-required connections |
+
+Key production settings:
+- `PYTHON_VERSION=3.11.9` pinned on Render (avoids build issues with newer Python defaults)
+- `DB_SSL=true` enables the SSL connection required by Aiven's managed MySQL
+- `CORS_ORIGINS` on the backend is locked to the deployed Netlify URL
+
+---
+
 ## Entity-Relationship Diagram
 
 ![ER Diagram](docs/er-diagram.png)
@@ -190,6 +278,17 @@ an author can have multiple books). `admin_sessions`, `fine_payments` and
 - **Constraint-aware deletes.** FKs are `ON DELETE RESTRICT` deliberately;
   the API catches the resulting `IntegrityError` and downgrades to a soft
   delete rather than losing history.
+- **Staff-operated, not self-service.** Students are managed records, not
+  user accounts — mirroring how a real circulation desk works, and keeping
+  the auth surface small and auditable (every book movement is tied to a
+  logged-in admin/librarian session).
+
+---
+
+## 🔮 Related Project
+
+Also check out **[BBDNIIT Online Examination Platform](https://github.com/tripathik9559)**
+— an AI-proctored, Django-based exam system (PostgreSQL, Redis, Docker).
 
 ---
 
