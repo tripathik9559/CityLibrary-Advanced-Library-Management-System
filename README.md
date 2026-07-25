@@ -287,7 +287,7 @@ an author can have multiple books). `admin_sessions`, `fine_payments` and
 
 ## 🔮 Related Project
 
-Also check out **[BBDNIIT Online Examination Platform](https://github.com/tripathik9559)**
+Also check out **[BBDNIIT Online Examination Platform](https://github.com/tripathik9559/College-exam-platform)**
 — an AI-proctored, Django-based exam system (PostgreSQL, Redis, Docker).
 
 ---
