@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reports · CityLibrary Admin</title>
+<link href="vendor/fonts/fonts.css" rel="stylesheet">
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+</head>
+<body data-page="reports">
+
+<div class="app-shell">
+  <div class="sidebar-backdrop"></div>
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="mark"><i class="bi bi-bookshelf"></i></div>
+      <div>CityLibrary<small>Admin Console</small></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-link" data-page="dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      <div class="sidebar-section-label">Catalog</div>
+      <a href="books.html" class="nav-link" data-page="books"><i class="bi bi-journal-bookmark-fill"></i> Books</a>
+      <a href="students.html" class="nav-link" data-page="students"><i class="bi bi-people-fill"></i> Students</a>
+      <div class="sidebar-section-label">Circulation</div>
+      <a href="issues.html" class="nav-link" data-page="issues"><i class="bi bi-arrow-left-right"></i> Issue &amp; Return</a>
+      <div class="sidebar-section-label">Insights</div>
+      <a href="reports.html" class="nav-link" data-page="reports"><i class="bi bi-bar-chart-line-fill"></i> Reports</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" data-user-initials>--</div>
+        <div>
+          <div class="name" data-user-name>—</div>
+          <div class="role" data-user-role>—</div>
+        </div>
+        <button class="sidebar-logout-btn" data-action="logout" title="Log out"><i class="bi bi-box-arrow-right"></i></button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="btn btn-outline-ink d-lg-none" data-action="toggle-sidebar"><i class="bi bi-list"></i></button>
+      <div>
+        <div class="topbar-title">Reports</div>
+        <div class="topbar-sub">Availability, circulation, and fine analytics</div>
+      </div>
+      <div class="topbar-right">
+        <a href="reports.html?tab=overdue" class="topbar-icon-btn" title="Overdue books">
+          <i class="bi bi-bell"></i><span class="dot" data-late-count style="display:none;"></span>
+        </a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <ul class="nav tab-pills mb-3" id="reportTabs">
+        <li class="nav-item"><button class="nav-link active" data-tab="available">Available Books</button></li>
+        <li class="nav-item"><button class="nav-link" data-tab="borrowed">Borrowed Books</button></li>
+        <li class="nav-item"><button class="nav-link" data-tab="overdue">Overdue Books</button></li>
+        <li class="nav-item"><button class="nav-link" data-tab="most-borrowed">Most Borrowed</button></li>
+        <li class="nav-item"><button class="nav-link" data-tab="student-history">Student History</button></li>
+        <li class="nav-item"><button class="nav-link" data-tab="fines">Fine Report</button></li>
+      </ul>
+
+      <div class="panel">
+        <div class="table-toolbar" id="reportToolbar"></div>
+        <div class="table-shell" style="border:none; border-radius:0;">
+          <table class="table">
+            <thead id="reportTableHead"></thead>
+            <tbody id="reportTableBody">
+              <tr class="skeleton-row"><td><div class="skeleton-bar"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination-bar" id="paginationBar"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/reports.js"></script>
+</body>
+</html>

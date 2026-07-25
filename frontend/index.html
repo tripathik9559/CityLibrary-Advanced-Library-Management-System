@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign in · CityLibrary Admin</title>
+
+<link href="vendor/fonts/fonts.css" rel="stylesheet">
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+</head>
+<body data-requires-auth="false">
+
+<div class="auth-shell">
+  <div class="auth-brand-panel">
+    <div class="auth-brand-mark"><i class="bi bi-bookshelf"></i> CityLibrary</div>
+    <h1>Run the whole library from one clean dashboard.</h1>
+    <p>Catalog, circulation, memberships and fines — one admin console built
+       on a properly normalized MySQL schema with real stored procedures,
+       triggers and transactional issue/return workflows underneath.</p>
+
+    <div class="auth-stat-row">
+      <div>
+        <div class="stat-num">31+</div>
+        <div class="stat-label">Titles Cataloged</div>
+      </div>
+      <div>
+        <div class="stat-num">18</div>
+        <div class="stat-label">Active Members</div>
+      </div>
+      <div>
+        <div class="stat-num">99.9%</div>
+        <div class="stat-label">Uptime Target</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-form-panel">
+    <div class="auth-card">
+      <h2>Welcome back</h2>
+      <div class="sub">Sign in to the library admin console.</div>
+
+      <div class="auth-error" id="loginError"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="field-group">
+          <label class="form-label" for="username">Username</label>
+          <input type="text" class="form-control" id="username" placeholder="admin" autocomplete="username" required>
+        </div>
+        <div class="field-group">
+          <label class="form-label" for="password">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="••••••••" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn btn-brass w-100 mt-2" id="loginBtn">
+          <span id="loginBtnText">Sign In</span>
+          <span class="spinner-border spinner-border-sm ms-1 d-none" id="loginSpinner"></span>
+        </button>
+      </form>
+
+      <div class="auth-demo-hint">
+        Demo credentials — username <code>admin</code>, password <code>Admin@123</code>.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>

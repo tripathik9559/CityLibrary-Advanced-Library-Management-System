@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Issue &amp; Return · CityLibrary Admin</title>
+<link href="vendor/fonts/fonts.css" rel="stylesheet">
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+</head>
+<body data-page="issues">
+
+<div class="app-shell">
+  <div class="sidebar-backdrop"></div>
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="mark"><i class="bi bi-bookshelf"></i></div>
+      <div>CityLibrary<small>Admin Console</small></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-link" data-page="dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      <div class="sidebar-section-label">Catalog</div>
+      <a href="books.html" class="nav-link" data-page="books"><i class="bi bi-journal-bookmark-fill"></i> Books</a>
+      <a href="students.html" class="nav-link" data-page="students"><i class="bi bi-people-fill"></i> Students</a>
+      <div class="sidebar-section-label">Circulation</div>
+      <a href="issues.html" class="nav-link" data-page="issues"><i class="bi bi-arrow-left-right"></i> Issue &amp; Return</a>
+      <div class="sidebar-section-label">Insights</div>
+      <a href="reports.html" class="nav-link" data-page="reports"><i class="bi bi-bar-chart-line-fill"></i> Reports</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" data-user-initials>--</div>
+        <div>
+          <div class="name" data-user-name>—</div>
+          <div class="role" data-user-role>—</div>
+        </div>
+        <button class="sidebar-logout-btn" data-action="logout" title="Log out"><i class="bi bi-box-arrow-right"></i></button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="btn btn-outline-ink d-lg-none" data-action="toggle-sidebar"><i class="bi bi-list"></i></button>
+      <div>
+        <div class="topbar-title">Issue &amp; Return</div>
+        <div class="topbar-sub">Circulation desk — issue books, process returns, collect fines</div>
+      </div>
+      <div class="topbar-right">
+        <a href="reports.html?tab=overdue" class="topbar-icon-btn" title="Overdue books">
+          <i class="bi bi-bell"></i><span class="dot" data-late-count style="display:none;"></span>
+        </a>
+        <button class="btn btn-brass" id="btnIssueBook"><i class="bi bi-box-arrow-in-right"></i> Issue Book</button>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="panel">
+        <div class="table-toolbar">
+          <ul class="nav tab-pills" id="statusTabs">
+            <li class="nav-item"><button class="nav-link active" data-status="">All</button></li>
+            <li class="nav-item"><button class="nav-link" data-status="issued">Issued</button></li>
+            <li class="nav-item"><button class="nav-link" data-status="overdue">Overdue</button></li>
+            <li class="nav-item"><button class="nav-link" data-status="returned">Returned</button></li>
+          </ul>
+          <select class="form-select ms-auto" id="pageSize" style="max-width:110px;">
+            <option value="10">10 / page</option>
+            <option value="25">25 / page</option>
+            <option value="50">50 / page</option>
+          </select>
+        </div>
+
+        <div class="table-shell" style="border:none; border-radius:0;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Book</th>
+                <th>Student</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Return Date</th>
+                <th>Fine</th>
+                <th>Status</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="issuesTableBody">
+              <tr class="skeleton-row"><td colspan="8"><div class="skeleton-bar"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination-bar" id="paginationBar"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Issue Book Modal -->
+<div class="modal fade" id="issueModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Issue a Book</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="issueForm">
+        <div class="modal-body">
+          <div class="field-group">
+            <label class="form-label">Book *</label>
+            <select class="form-select" id="issueBookSelect" required></select>
+            <div class="field-hint" id="bookAvailabilityHint"></div>
+          </div>
+          <div class="field-group">
+            <label class="form-label">Student *</label>
+            <select class="form-select" id="issueStudentSelect" required></select>
+          </div>
+          <div class="field-group">
+            <label class="form-label">Loan Period (days)</label>
+            <input type="number" class="form-control" id="issueDays" value="14" min="1" max="90">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-ink" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-brass" id="issueSaveBtn">Issue Book</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Pay Fine Modal -->
+<div class="modal fade" id="payFineModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Collect Fine</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="payFineForm">
+        <div class="modal-body">
+          <input type="hidden" id="payFineIssueId">
+          <p class="mb-2">Outstanding balance: <strong id="payFineBalance">—</strong></p>
+          <div class="field-group">
+            <label class="form-label">Amount to Collect (Rs.) *</label>
+            <input type="number" step="0.01" min="0.01" class="form-control" id="payFineAmount" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-ink" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-brass" id="payFineSaveBtn">Record Payment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/issues.js"></script>
+</body>
+</html>

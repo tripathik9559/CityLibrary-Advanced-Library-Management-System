@@ -1,0 +1,11 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+PyMySQL==1.1.1
+DBUtils==3.1.0
+bcrypt==4.2.1
+PyJWT==2.10.1
+python-multipart==0.0.20
+pydantic==2.10.4
+pydantic-settings==2.7.1
+python-dotenv==1.0.1
+email-validator==2.2.0

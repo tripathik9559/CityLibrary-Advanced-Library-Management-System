@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard · CityLibrary Admin</title>
+<link href="vendor/fonts/fonts.css" rel="stylesheet">
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="vendor/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+</head>
+<body data-page="dashboard">
+
+<div class="app-shell">
+  <div class="sidebar-backdrop"></div>
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="mark"><i class="bi bi-bookshelf"></i></div>
+      <div>CityLibrary<small>Admin Console</small></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-link" data-page="dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+
+      <div class="sidebar-section-label">Catalog</div>
+      <a href="books.html" class="nav-link" data-page="books"><i class="bi bi-journal-bookmark-fill"></i> Books</a>
+      <a href="students.html" class="nav-link" data-page="students"><i class="bi bi-people-fill"></i> Students</a>
+
+      <div class="sidebar-section-label">Circulation</div>
+      <a href="issues.html" class="nav-link" data-page="issues"><i class="bi bi-arrow-left-right"></i> Issue &amp; Return</a>
+
+      <div class="sidebar-section-label">Insights</div>
+      <a href="reports.html" class="nav-link" data-page="reports"><i class="bi bi-bar-chart-line-fill"></i> Reports</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" data-user-initials>--</div>
+        <div>
+          <div class="name" data-user-name>—</div>
+          <div class="role" data-user-role>—</div>
+        </div>
+        <button class="sidebar-logout-btn" data-action="logout" title="Log out"><i class="bi bi-box-arrow-right"></i></button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="btn btn-outline-ink d-lg-none" data-action="toggle-sidebar"><i class="bi bi-list"></i></button>
+      <div>
+        <div class="topbar-title">Dashboard</div>
+        <div class="topbar-sub">Live overview of the library's circulation</div>
+      </div>
+      <div class="topbar-right">
+        <a href="reports.html?tab=overdue" class="topbar-icon-btn" title="Overdue books">
+          <i class="bi bi-bell"></i>
+          <span class="dot" data-late-count style="display:none;"></span>
+        </a>
+      </div>
+    </header>
+
+    <main class="page-content">
+
+      <div class="row g-3 mb-3">
+        <div class="col-xl-3 col-sm-6">
+          <div class="kpi-card" style="--accent:#c9971c; --accent-soft:#fdf1de;">
+            <div class="kpi-label"><span class="kpi-icon"><i class="bi bi-journals"></i></span> Total Books</div>
+            <div class="kpi-value" id="kpiTotalBooks">—</div>
+            <div class="kpi-sub" id="kpiTotalBooksSub">across the catalog</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+          <div class="kpi-card" style="--accent:#158f77; --accent-soft:#e3f4f0;">
+            <div class="kpi-label"><span class="kpi-icon"><i class="bi bi-check2-circle"></i></span> Available</div>
+            <div class="kpi-value" id="kpiAvailable">—</div>
+            <div class="kpi-sub">ready to issue</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+          <div class="kpi-card" style="--accent:#3563e9; --accent-soft:#e8edfd;">
+            <div class="kpi-label"><span class="kpi-icon"><i class="bi bi-arrow-left-right"></i></span> Issued</div>
+            <div class="kpi-value" id="kpiIssued">—</div>
+            <div class="kpi-sub">currently out</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+          <div class="kpi-card" style="--accent:#d64545; --accent-soft:#fbe9e9;">
+            <div class="kpi-label"><span class="kpi-icon"><i class="bi bi-exclamation-triangle-fill"></i></span> Late Returns</div>
+            <div class="kpi-value" id="kpiLate">—</div>
+            <div class="kpi-sub">past due date</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-xl-3 col-sm-6">
+          <div class="kpi-card" style="--accent:#8a660f; --accent-soft:#fdf1de;">
+            <div class="kpi-label"><span class="kpi-icon"><i class="bi bi-people"></i></span> Students</div>
+            <div class="kpi-value" id="kpiStudents">—</div>
+            <div class="kpi-sub">active memberships</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+          <div class="kpi-card" style="--accent:#158f77; --accent-soft:#e3f4f0;">
+            <div class="kpi-label"><span class="kpi-icon"><i class="bi bi-arrow-return-left"></i></span> Returned</div>
+            <div class="kpi-value" id="kpiReturned">—</div>
+            <div class="kpi-sub">all-time returns</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+          <div class="kpi-card" style="--accent:#158f77; --accent-soft:#e3f4f0;">
+            <div class="kpi-label"><span class="kpi-icon"><i class="bi bi-cash-coin"></i></span> Fine Collected</div>
+            <div class="kpi-value" id="kpiFineCollected">—</div>
+            <div class="kpi-sub">settled to date</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+          <div class="kpi-card" style="--accent:#e2a034; --accent-soft:#fdf1de;">
+            <div class="kpi-label"><span class="kpi-icon"><i class="bi bi-hourglass-split"></i></span> Fine Pending</div>
+            <div class="kpi-value" id="kpiFinePending">—</div>
+            <div class="kpi-sub">outstanding balance</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-xl-7">
+          <div class="panel h-100">
+            <div class="panel-header">
+              <div>
+                <h6 class="mb-0">Books Issued — Last 14 Days</h6>
+                <div class="sub">Daily circulation volume</div>
+              </div>
+            </div>
+            <div class="panel-body">
+              <canvas id="issuesTrendChart" height="110"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-5">
+          <div class="panel h-100">
+            <div class="panel-header">
+              <div>
+                <h6 class="mb-0">Catalog by Category</h6>
+                <div class="sub">Book count per category</div>
+              </div>
+            </div>
+            <div class="panel-body">
+              <canvas id="categoryChart" height="180"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h6 class="mb-0">Recent Activity</h6>
+            <div class="sub">Latest issues and returns</div>
+          </div>
+        </div>
+        <div class="table-shell" style="border:none;">
+          <table class="table">
+            <thead>
+              <tr><th>Book</th><th>Student</th><th>Issued</th><th>Returned</th><th>Status</th></tr>
+            </thead>
+            <tbody id="recentActivityBody">
+              <tr class="skeleton-row"><td colspan="5"><div class="skeleton-bar"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/chartjs/chart.umd.js"></script>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
